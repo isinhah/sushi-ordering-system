@@ -1,5 +1,6 @@
 package com.sushi.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -23,9 +24,20 @@ public class Address implements Serializable {
     @Column(nullable = false)
     private String neighborhood;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    public Address() {
+    }
+
+    public Address(String number, String street, String neighborhood, Customer customer) {
+        this.number = number;
+        this.street = street;
+        this.neighborhood = neighborhood;
+        this.customer = customer;
+    }
 
     public Long getId() {
         return id;
