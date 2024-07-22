@@ -6,10 +6,7 @@ import com.sushi.api.model.Customer;
 import com.sushi.api.model.Phone;
 import com.sushi.api.model.dto.customer.CustomerRequestDTO;
 import com.sushi.api.model.dto.customer.CustomerUpdateDTO;
-import com.sushi.api.repositories.AddressRepository;
 import com.sushi.api.repositories.CustomerRepository;
-import com.sushi.api.repositories.PhoneRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -69,13 +65,7 @@ public class CustomerService {
 
     @Transactional
     public void replaceCustomer(CustomerUpdateDTO dto) {
-        Optional<Customer> savedCustomerOpt = customerRepository.findById(dto.id());
-
-        if (!customerRepository.existsById(dto.id())) {
-            throw new ResourceNotFoundException("Customer not found with this ID.");
-        }
-
-        Customer savedCustomer = savedCustomerOpt.get();
+        Customer savedCustomer = findCustomerById(dto.id());
         savedCustomer.setName(dto.name());
         savedCustomer.setEmail(dto.email());
 
@@ -105,9 +95,6 @@ public class CustomerService {
 
     @Transactional
     public void deleteCustomer(UUID id) {
-        if (!customerRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Customer not found with this ID.");
-        }
-        customerRepository.deleteById(id);
+        customerRepository.delete(findCustomerById(id));
     }
 }
