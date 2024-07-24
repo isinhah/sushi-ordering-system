@@ -2,6 +2,7 @@ package com.sushi.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class Category implements Serializable {
     private String name;
     private String description;
 
+    @JsonManagedReference
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 

@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/api/customers")
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
@@ -38,6 +38,8 @@ public class CustomerController {
         Customer customer = customerService.findCustomerById(id);
         return ResponseEntity.ok(customer);
     }
+
+
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody CustomerRequestDTO dto) {

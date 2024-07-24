@@ -49,7 +49,7 @@ public class ProductService {
         product.setPortionUnit(dto.portionUnit());
         product.setUrlImage(dto.urlImage());
 
-        Set<Category> categories = dto.categoryIds().stream()
+        Set<Category> categories = dto.categoriesId().stream()
                 .map(id -> categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found with this id.")))
                 .collect(Collectors.toSet());
         product.setCategories(categories);
@@ -68,7 +68,7 @@ public class ProductService {
         product.setPortionUnit(dto.portionUnit());
         product.setUrlImage(dto.urlImage());
 
-        Set<Category> categories = dto.categoryIds().stream()
+        Set<Category> categories = dto.categoriesId().stream()
                 .map(id -> categoryRepository.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("Category not found with this id.")))
                 .collect(Collectors.toSet());

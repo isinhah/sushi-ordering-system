@@ -22,6 +22,6 @@ public record ProductUpdateDTO(
         String portionUnit,
         @NotBlank(message = "URL Image cannot be blank")
         String urlImage,
-        Set<Long> categoryIds
+        Set<Long> categoriesId
 ) {
 }

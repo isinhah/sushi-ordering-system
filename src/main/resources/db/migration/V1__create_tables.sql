@@ -20,38 +20,6 @@ CREATE TABLE addresses (
     FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE
 );
 
-CREATE TABLE payment (
-    id SERIAL PRIMARY KEY,
-    status INT NOT NULL
-);
-
-CREATE TABLE cashpayment (
-    id SERIAL PRIMARY KEY,
-    amount DOUBLE PRECISION NOT NULL,
-    payment_id BIGINT,
-    FOREIGN KEY (payment_id) REFERENCES payment(id) ON DELETE CASCADE
-);
-
-CREATE TABLE pixpayment (
-    id SERIAL PRIMARY KEY,
-    pix_key VARCHAR(255) NOT NULL,
-    amount DOUBLE PRECISION NOT NULL,
-    status VARCHAR(255) NOT NULL,
-    payment_id BIGINT,
-    FOREIGN KEY (payment_id) REFERENCES payment(id) ON DELETE CASCADE
-);
-
-CREATE TABLE orders (
-    id SERIAL PRIMARY KEY,
-    order_date TIMESTAMP NOT NULL,
-    customer_id UUID NOT NULL,
-    payment_id BIGINT NOT NULL,
-    delivery_address_id INTEGER,
-    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
-    FOREIGN KEY (payment_id) REFERENCES payment(id) ON DELETE CASCADE,
-    FOREIGN KEY (delivery_address_id) REFERENCES addresses(id) ON DELETE CASCADE
-);
-
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -68,12 +36,25 @@ CREATE TABLE products (
     url_image VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    order_date TIMESTAMP NOT NULL,
+    customer_id UUID NOT NULL,
+    delivery_address_id INTEGER NOT NULL,
+    total_amount DOUBLE PRECISION NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
+    FOREIGN KEY (delivery_address_id) REFERENCES addresses(id) ON DELETE CASCADE
+);
+
 CREATE TABLE order_item (
     id SERIAL PRIMARY KEY,
-    order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
-    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    order_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
-    price DOUBLE PRECISION NOT NULL
+    price DOUBLE PRECISION NOT NULL,
+    total_price DOUBLE PRECISION NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 CREATE TABLE category_product (

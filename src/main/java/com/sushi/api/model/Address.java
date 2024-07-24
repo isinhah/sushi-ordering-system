@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "addresses")
@@ -25,19 +25,12 @@ public class Address implements Serializable {
     private String neighborhood;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
-    public Address() {
-    }
-
-    public Address(String number, String street, String neighborhood, Customer customer) {
-        this.number = number;
-        this.street = street;
-        this.neighborhood = neighborhood;
-        this.customer = customer;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "deliveryAddress", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Order> orders = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -77,6 +70,14 @@ public class Address implements Serializable {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
