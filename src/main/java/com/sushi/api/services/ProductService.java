@@ -2,6 +2,7 @@ package com.sushi.api.services;
 
 import com.sushi.api.exceptions.ResourceNotFoundException;
 import com.sushi.api.model.Category;
+import com.sushi.api.model.Customer;
 import com.sushi.api.model.Product;
 import com.sushi.api.model.dto.product.ProductRequestDTO;
 import com.sushi.api.model.dto.product.ProductUpdateDTO;
@@ -36,6 +37,14 @@ public class ProductService {
     public Product findProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with this id."));
+    }
+
+    public List<Product> findProductByName(String name) {
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
+        if (products.isEmpty()) {
+            throw new ResourceNotFoundException("No products found with this name.");
+        }
+        return products;
     }
 
     @Transactional

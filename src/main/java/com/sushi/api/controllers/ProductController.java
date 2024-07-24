@@ -1,5 +1,6 @@
 package com.sushi.api.controllers;
 
+import com.sushi.api.model.Customer;
 import com.sushi.api.model.Product;
 import com.sushi.api.model.dto.product.ProductRequestDTO;
 import com.sushi.api.model.dto.product.ProductUpdateDTO;
@@ -33,6 +34,11 @@ public class ProductController {
     public ResponseEntity<Product> findProductById(@PathVariable Long id) {
         Product category = productService.findProductById(id);
         return ResponseEntity.ok(category);
+    }
+
+    @GetMapping("/find/by-name")
+    public ResponseEntity<List<Product>> findProductByName(@RequestParam String name) {
+        return ResponseEntity.ok(productService.findProductByName(name));
     }
 
     @PostMapping

@@ -1,6 +1,7 @@
 package com.sushi.api.controllers;
 
 import com.sushi.api.model.Category;
+import com.sushi.api.model.Customer;
 import com.sushi.api.model.dto.category.CategoryRequestDTO;
 import com.sushi.api.model.dto.category.CategoryUpdateDTO;
 import com.sushi.api.services.CategoryService;
@@ -33,6 +34,11 @@ public class CategoryController {
     public ResponseEntity<Category> findCategoryById(@PathVariable Long id) {
         Category category = categoryService.findCategoryById(id);
         return ResponseEntity.ok(category);
+    }
+
+    @GetMapping("/find/by-name")
+    public ResponseEntity<List<Category>> findCategoryByName(@RequestParam String name) {
+        return ResponseEntity.ok(categoryService.findCategoryByName(name));
     }
 
     @PostMapping

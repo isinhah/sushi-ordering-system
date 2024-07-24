@@ -2,7 +2,6 @@ package com.sushi.api.services;
 
 import com.sushi.api.exceptions.ResourceNotFoundException;
 import com.sushi.api.model.Category;
-import com.sushi.api.model.Product;
 import com.sushi.api.model.dto.category.CategoryRequestDTO;
 import com.sushi.api.model.dto.category.CategoryUpdateDTO;
 import com.sushi.api.repositories.CategoryRepository;
@@ -13,9 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CategoryService {
@@ -36,6 +33,14 @@ public class CategoryService {
     public Category findCategoryById(Long id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with this id."));
+    }
+
+    public List<Category> findCategoryByName(String name) {
+        List<Category> categories = categoryRepository.findByNameContainingIgnoreCase(name);
+        if (categories.isEmpty()) {
+            throw new ResourceNotFoundException("No categories found with this name.");
+        }
+        return categories;
     }
 
     @Transactional

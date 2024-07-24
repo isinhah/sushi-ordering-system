@@ -6,13 +6,16 @@ import com.sushi.api.model.Customer;
 import com.sushi.api.model.Phone;
 import com.sushi.api.model.dto.customer.CustomerRequestDTO;
 import com.sushi.api.model.dto.customer.CustomerUpdateDTO;
+import com.sushi.api.model.dto.phone.PhoneDTO;
 import com.sushi.api.repositories.CustomerRepository;
+import com.sushi.api.repositories.PhoneRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private PhoneRepository phoneRepository;
 
     public Page<Customer> listAllPageable(Pageable pageable) {
         return customerRepository.findAll(pageable);
@@ -34,6 +39,22 @@ public class CustomerService {
     public Customer findCustomerById(UUID id) {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found with this id."));
+    }
+
+    public List<Customer> findCustomerByName(String name) {
+        List<Customer> customers = customerRepository.findByNameContainingIgnoreCase(name);
+        if (customers.isEmpty()) {
+            throw new ResourceNotFoundException("No customers found with this name.");
+        }
+        return customers;
+    }
+
+    public List<Customer> findCustomerByEmail(String email) {
+        List<Customer> customers = customerRepository.findByEmailContainingIgnoreCase(email);
+        if (customers.isEmpty()) {
+            throw new ResourceNotFoundException("No customers found with this email.");
+        }
+        return customers;
     }
 
     @Transactional

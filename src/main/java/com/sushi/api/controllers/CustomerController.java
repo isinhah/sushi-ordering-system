@@ -1,8 +1,10 @@
 package com.sushi.api.controllers;
 
 import com.sushi.api.model.Customer;
+import com.sushi.api.model.Phone;
 import com.sushi.api.model.dto.customer.CustomerRequestDTO;
 import com.sushi.api.model.dto.customer.CustomerUpdateDTO;
+import com.sushi.api.model.dto.phone.PhoneDTO;
 import com.sushi.api.services.CustomerService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -39,7 +41,15 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
+    @GetMapping("/find/by-name")
+    public ResponseEntity<List<Customer>> findCustomerByName(@RequestParam String name) {
+        return ResponseEntity.ok(customerService.findCustomerByName(name));
+    }
 
+    @GetMapping("/find/by-email")
+    public ResponseEntity<List<Customer>> findCustomerByEmail(@RequestParam String email) {
+        return ResponseEntity.ok(customerService.findCustomerByEmail(email));
+    }
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody CustomerRequestDTO dto) {
