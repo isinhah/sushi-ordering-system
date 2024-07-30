@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,33 +21,34 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Category>> listAllNonPageable() {
         return new ResponseEntity<>(categoryService.listAllNonPageable(), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Category>> listAllPageable(Pageable pageable) {
         return new ResponseEntity<>(categoryService.listAllPageable(pageable).getContent(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Category> findCategoryById(@PathVariable Long id) {
         Category category = categoryService.findCategoryById(id);
         return ResponseEntity.ok(category);
     }
 
-    @GetMapping("/find/by-name")
+    @GetMapping(value = "/find/by-name", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Category>> findCategoryByName(@RequestParam String name) {
         return ResponseEntity.ok(categoryService.findCategoryByName(name));
     }
 
-    @PostMapping
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Category> createCategory(@Valid @RequestBody CategoryRequestDTO dto) {
         return new ResponseEntity<>(categoryService.createCategory(dto), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Void> replaceCategory(@Valid @RequestBody CategoryUpdateDTO dto) {
         categoryService.replaceCategory(dto);
         return ResponseEntity.noContent().build();

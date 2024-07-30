@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,38 +26,39 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Customer>> listAllPageable(Pageable pageable) {
         return new ResponseEntity<>(customerService.listAllPageable(pageable).getContent(), HttpStatus.OK);
     }
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Customer>> listAllNonPageable() {
         return new ResponseEntity<>(customerService.listAllNonPageable(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Customer> findCustomerById(@PathVariable UUID id) {
         Customer customer = customerService.findCustomerById(id);
         return ResponseEntity.ok(customer);
     }
 
-    @GetMapping("/find/by-name")
+    @GetMapping(value = "/find/by-name", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Customer>> findCustomerByName(@RequestParam String name) {
         return ResponseEntity.ok(customerService.findCustomerByName(name));
     }
 
-    @GetMapping("/find/by-email")
+    @GetMapping(value = "/find/by-email", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Customer> findCustomerByEmail(@RequestParam String email) {
         return ResponseEntity.ok(customerService.findCustomerByEmail(email));
     }
 
-    @PostMapping
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody CustomerRequestDTO dto) {
         return new ResponseEntity<>(customerService.createCustomer(dto), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Void> replaceCustomer(@Valid @RequestBody CustomerUpdateDTO dto) {
         customerService.replaceCustomer(dto);
         return ResponseEntity.noContent().build();

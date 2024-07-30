@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,33 +21,34 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Product>> listAllNonPageable() {
         return new ResponseEntity<>(productService.listAllNonPageable(), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Product>> listAllPageable(Pageable pageable) {
         return new ResponseEntity<>(productService.listAllPageable(pageable).getContent(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Product> findProductById(@PathVariable Long id) {
         Product category = productService.findProductById(id);
         return ResponseEntity.ok(category);
     }
 
-    @GetMapping("/find/by-name")
+    @GetMapping(value = "/find/by-name", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Product>> findProductByName(@RequestParam String name) {
         return ResponseEntity.ok(productService.findProductByName(name));
     }
 
-    @PostMapping
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductRequestDTO dto) {
         return new ResponseEntity<>(productService.createProduct(dto), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Void> replaceProduct(@Valid @RequestBody ProductUpdateDTO dto) {
         productService.replaceProduct(dto);
         return ResponseEntity.noContent().build();

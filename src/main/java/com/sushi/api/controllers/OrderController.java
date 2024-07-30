@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,28 +20,29 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Order>> listAllNonPageable() {
         return new ResponseEntity<>(orderService.listAllNonPageable(), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Order>> listAllPageable(Pageable pageable) {
         return new ResponseEntity<>(orderService.listAllPageable(pageable).getContent(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Order> findOrderById(@PathVariable Long id) {
         Order category = orderService.findOrderById(id);
         return ResponseEntity.ok(category);
     }
 
-    @PostMapping
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Order> createOrder(@Valid @RequestBody OrderRequestDTO dto) {
         return new ResponseEntity<>(orderService.createOrder(dto), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Order> replaceOrder(@Valid @RequestBody OrderUpdateDTO dto) {
         orderService.replaceOrder(dto);
         return ResponseEntity.noContent().build();
