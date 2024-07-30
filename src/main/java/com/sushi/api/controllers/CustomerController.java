@@ -47,7 +47,7 @@ public class CustomerController {
     }
 
     @GetMapping("/find/by-email")
-    public ResponseEntity<List<Customer>> findCustomerByEmail(@RequestParam String email) {
+    public ResponseEntity<Customer> findCustomerByEmail(@RequestParam String email) {
         return ResponseEntity.ok(customerService.findCustomerByEmail(email));
     }
 

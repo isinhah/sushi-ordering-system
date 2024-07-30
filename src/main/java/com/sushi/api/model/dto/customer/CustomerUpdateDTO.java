@@ -16,6 +16,8 @@ public record CustomerUpdateDTO(
         String name,
         @NotBlank(message = "Email cannot be blank")
         String email,
+        @NotBlank(message = "Password cannot be blank")
+        String password,
         @NotNull(message = "Phone cannot be null")
         @Valid
         PhoneDTO phone,

@@ -21,6 +21,8 @@ public class Customer implements Serializable {
     private String name;
     @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
+    private String password;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -31,6 +33,17 @@ public class Customer implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
+
+    public Customer() {
+    }
+
+    public Customer(UUID id, String name, String email, String password, Phone phone) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+    }
 
     public UUID getId() {
         return id;
@@ -78,6 +91,14 @@ public class Customer implements Serializable {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
