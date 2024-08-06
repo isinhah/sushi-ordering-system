@@ -25,6 +25,12 @@ public class Phone implements Serializable {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
+    public Phone() {}
+
+    public Phone(String number) {
+        this.number = number;
+    }
+
     public Long getId() {
         return id;
     }

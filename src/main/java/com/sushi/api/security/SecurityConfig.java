@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
     @Autowired
-    SecurityFilter securityFilter;
+    private SecurityFilter securityFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -40,7 +40,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/customers", "/api/customers/{id}", "/api/customers/find/by-name", "/api/customers/find/by-email").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/orders", "/api/orders/list").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/categories", "/api/products", "/api/employees").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/categories", "/api/products", "/api/orders", "/api/employees").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/categories", "/api/products", "/api/orders", "/api/employees", "/api/customers").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/categories/{id}", "/api/products/{id}", "/api/employees/{id}").hasAuthority("ADMIN")
 
                         .anyRequest().authenticated()

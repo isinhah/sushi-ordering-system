@@ -11,6 +11,7 @@ import com.sushi.api.repositories.EmployeeRepository;
 import com.sushi.api.security.TokenService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -76,6 +77,10 @@ public class EmployeeService {
 
     @Transactional
     public Employee createEmployee(EmployeeRequestDTO dto) {
+        if (employeeRepository.findByEmail(dto.email()).isPresent()) {
+            throw new DataIntegrityViolationException("Data integrity violation error occurred.");
+        }
+
         Employee employee = new Employee();
         employee.setName(dto.name());
         employee.setEmail(dto.email());
@@ -90,6 +95,7 @@ public class EmployeeService {
         savedEmployee.setName(dto.name());
         savedEmployee.setEmail(dto.email());
         savedEmployee.setPassword(dto.password());
+        employeeRepository.save(savedEmployee);
     }
 
     @Transactional

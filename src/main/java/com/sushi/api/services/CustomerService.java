@@ -13,6 +13,7 @@ import com.sushi.api.repositories.CustomerRepository;
 import com.sushi.api.security.TokenService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -89,6 +90,10 @@ public class CustomerService {
 
     @Transactional
     public Customer createCustomer(CustomerRequestDTO dto) {
+        if (customerRepository.findByEmail(dto.email()).isPresent()) {
+            throw new DataIntegrityViolationException("Data integrity violation error occurred.");
+        }
+
         Customer customer = new Customer();
         customer.setName(dto.name());
         customer.setEmail(dto.email());
@@ -144,6 +149,8 @@ public class CustomerService {
                     .collect(Collectors.toSet());
             savedCustomer.getAddresses().addAll(updatedAddresses);
         }
+
+        customerRepository.save(savedCustomer);
     }
 
     @Transactional

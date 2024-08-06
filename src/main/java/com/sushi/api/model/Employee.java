@@ -22,8 +22,9 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(UUID id, String email, String password) {
+    public Employee(UUID id, String name, String email, String password) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.password = password;
     }

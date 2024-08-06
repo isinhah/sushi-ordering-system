@@ -32,6 +32,22 @@ public class Address implements Serializable {
     @OneToMany(mappedBy = "deliveryAddress", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
 
+    public Address() {
+    }
+
+    public Address(String number, String street, String neighborhood) {
+        this.number = number;
+        this.street = street;
+        this.neighborhood = neighborhood;
+    }
+
+    public Address(String number, String street, String neighborhood, Customer customer) {
+        this.number = number;
+        this.street = street;
+        this.neighborhood = neighborhood;
+        this.customer = customer;
+    }
+
     public Long getId() {
         return id;
     }
