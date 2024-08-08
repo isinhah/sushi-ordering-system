@@ -45,7 +45,7 @@ public class OrderController {
     @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Order> replaceOrder(@Valid @RequestBody OrderUpdateDTO dto) {
         orderService.replaceOrder(dto);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

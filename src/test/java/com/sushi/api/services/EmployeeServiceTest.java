@@ -31,7 +31,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.never;
 
 @ExtendWith(SpringExtension.class)
 public class EmployeeServiceTest {
@@ -240,7 +239,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    @DisplayName("Should replace an existing employee when provided with valid CustomerUpdateDTO")
+    @DisplayName("Should replace an existing employee when provided with valid EmployeeUpdateDTO")
     void replaceEmployee_WhenSuccessful() {
         when(employeeRepository.findById(EMPLOYEE.getId())).thenReturn(Optional.of(EMPLOYEE));
 

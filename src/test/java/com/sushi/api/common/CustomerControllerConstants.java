@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import static com.sushi.api.common.CustomerConstants.*;
+import static com.sushi.api.common.CustomerConstants.ADDRESS;
+import static com.sushi.api.common.CustomerConstants.PHONE;
 
 public class CustomerControllerConstants {
     public static final Customer CUSTOMER_WITH_ADDRESS = new Customer(UUID.randomUUID(), "isabel", "isabel@gmail.com", "1234", PHONE);

@@ -2,7 +2,6 @@ package com.sushi.api.services;
 
 import com.sushi.api.exceptions.ResourceNotFoundException;
 import com.sushi.api.model.Category;
-import com.sushi.api.model.Customer;
 import com.sushi.api.model.Product;
 import com.sushi.api.model.dto.product.ProductRequestDTO;
 import com.sushi.api.model.dto.product.ProductUpdateDTO;
@@ -10,6 +9,7 @@ import com.sushi.api.repositories.CategoryRepository;
 import com.sushi.api.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -49,6 +49,12 @@ public class ProductService {
 
     @Transactional
     public Product createProduct(ProductRequestDTO dto) {
+        List<Product> existingProducts = productRepository.findByNameContainingIgnoreCase(dto.name());
+
+        if (!existingProducts.isEmpty()) {
+            throw new DataIntegrityViolationException("Data integrity violation error occurred.");
+        }
+
         Product product = new Product();
 
         product.setName(dto.name());

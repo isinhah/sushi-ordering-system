@@ -33,6 +33,14 @@ public class OrderItem implements Serializable {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    public OrderItem() {}
+
+    public OrderItem(Long id, Integer quantity, Double price) {
+        this.id = id;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     public void calculateTotalPrice() {
         if (price != null && quantity != null) {
             this.totalPrice = price * quantity;

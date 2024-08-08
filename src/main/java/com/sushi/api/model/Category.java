@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
@@ -25,6 +26,26 @@ public class Category implements Serializable {
     @JsonManagedReference
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
+
+    public Category() {}
+
+    public Category(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Category(Long id, String name, String description, Set<Product> products) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.products = products;
+    }
 
     public Long getId() {
         return id;

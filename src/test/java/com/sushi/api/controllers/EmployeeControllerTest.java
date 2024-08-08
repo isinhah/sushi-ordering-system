@@ -124,7 +124,7 @@ public class EmployeeControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    @DisplayName("Should create a new employee when successful")
+    @DisplayName("Should create a new employee and returns Created")
     public void createEmployee_WithValidData_ReturnsEmployeeCreated() throws Exception {
         String employeeJson = objectMapper.writeValueAsString(EMPLOYEE);
 
@@ -138,7 +138,7 @@ public class EmployeeControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    @DisplayName("Should delete an employee by id when successful")
+    @DisplayName("Should replace an existing employee and returns No Content")
     public void replaceEmployee_WithValidData_ReturnsNoContent() throws Exception {
         String employeeJson = objectMapper.writeValueAsString(EMPLOYEE);
 
@@ -152,7 +152,7 @@ public class EmployeeControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    @DisplayName("Should return ResourceNotFoundException when trying to delete an employee by id that does not exist")
+    @DisplayName("Should delete a employee by id and returns No Content")
     public void deleteEmployeeById_ReturnsNoContent() throws Exception {
         when(employeeService.findEmployeeById(EMPLOYEE.getId())).thenReturn(EMPLOYEE);
 

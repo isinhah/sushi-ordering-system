@@ -225,7 +225,7 @@ class CustomerServiceTest {
 
     @Test
     @DisplayName("Should return a LoginResponseDTO with invalid credentials message when customer already exists")
-    void registerCostumer_WithExistingCustomer_ReturnsInvalidCredentials() {
+    void registerCustomer_WithExistingCustomer_ReturnsInvalidCredentials() {
         RegisterRequestDTO request = new RegisterRequestDTO("ana", EMAIL, PASSWORD);
 
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(new Customer()));
@@ -292,11 +292,11 @@ class CustomerServiceTest {
     @Test
     @DisplayName("Should delete a customer by id when successful")
     void deleteCustomer_WithExistingId_WhenSuccessful() {
-        when(customerRepository.findById(CUSTOMER_ID.getId())).thenReturn(Optional.of(CUSTOMER_ID));
+        when(customerRepository.findById(CUSTOMER.getId())).thenReturn(Optional.of(CUSTOMER));
 
-        assertThatCode(() -> customerService.deleteCustomer(CUSTOMER_ID.getId())).doesNotThrowAnyException();
+        assertThatCode(() -> customerService.deleteCustomer(CUSTOMER.getId())).doesNotThrowAnyException();
 
-        verify(customerRepository, times(1)).delete(CUSTOMER_ID);
+        verify(customerRepository, times(1)).delete(CUSTOMER);
     }
 
     @Test

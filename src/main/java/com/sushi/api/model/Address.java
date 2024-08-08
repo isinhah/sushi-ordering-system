@@ -41,6 +41,13 @@ public class Address implements Serializable {
         this.neighborhood = neighborhood;
     }
 
+    public Address(Long id, String number, String street, String neighborhood) {
+        this.id = id;
+        this.number = number;
+        this.street = street;
+        this.neighborhood = neighborhood;
+    }
+
     public Address(String number, String street, String neighborhood, Customer customer) {
         this.number = number;
         this.street = street;

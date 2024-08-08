@@ -40,6 +40,15 @@ public class Order implements Serializable {
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
 
+    public Order() {}
+
+    public Order(Long id, Customer customer, Address deliveryAddress, List<OrderItem> items) {
+        this.id = id;
+        this.customer = customer;
+        this.deliveryAddress = deliveryAddress;
+        this.items = items;
+    }
+
     public void calculateTotalAmount() {
         this.totalAmount = this.items.stream()
                 .mapToDouble(OrderItem::getTotalPrice)

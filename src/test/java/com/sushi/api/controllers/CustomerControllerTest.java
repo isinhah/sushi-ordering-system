@@ -23,12 +23,12 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.sushi.api.common.CustomerConstants.*;
-
-import static com.sushi.api.common.CustomerControllerConstants.*;
+import static com.sushi.api.common.CustomerControllerConstants.CUSTOMERS_WITH_ADDRESS;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CustomerController.class)
 public class CustomerControllerTest {

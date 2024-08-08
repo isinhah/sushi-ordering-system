@@ -41,6 +41,35 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItems = new HashSet<>();
 
+    public Product() {}
+
+    public Product(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Product(Long id, String name, String description, Double price, Integer portionQuantity, String portionUnit, String urlImage) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.portionQuantity = portionQuantity;
+        this.portionUnit = portionUnit;
+        this.urlImage = urlImage;
+    }
+
+    public Product(Long id, String name, String description, Double price, Integer portionQuantity, String portionUnit, String urlImage, Set<Category> categories) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.portionQuantity = portionQuantity;
+        this.portionUnit = portionUnit;
+        this.urlImage = urlImage;
+        this.categories = categories;
+    }
+
     public Long getId() {
         return id;
     }
