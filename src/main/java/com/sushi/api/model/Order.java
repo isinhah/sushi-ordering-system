@@ -1,17 +1,15 @@
 package com.sushi.api.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -26,6 +24,8 @@ public class Order implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm")
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
+    @Column(name = "total_amount", nullable = false)
+    private Double totalAmount;
 
     @JsonManagedReference
     @ManyToOne
@@ -34,11 +34,8 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "delivery_address_id", nullable = false)
     private Address deliveryAddress;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> items = new ArrayList<>();
-
-    @Column(name = "total_amount", nullable = false)
-    private Double totalAmount;
 
     public Order() {}
 

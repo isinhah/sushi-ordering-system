@@ -1,7 +1,5 @@
 package com.sushi.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -9,7 +7,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
@@ -24,7 +21,7 @@ public class Category implements Serializable {
     private String description;
 
     @JsonManagedReference
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
     private Set<Product> products = new HashSet<>();
 
     public Category() {}
@@ -38,13 +35,6 @@ public class Category implements Serializable {
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
-    }
-
-    public Category(Long id, String name, String description, Set<Product> products) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.products = products;
     }
 
     public Long getId() {

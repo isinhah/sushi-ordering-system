@@ -8,7 +8,6 @@ import java.util.*;
 
 @Entity
 @Table(name = "addresses")
-@Embeddable
 public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
