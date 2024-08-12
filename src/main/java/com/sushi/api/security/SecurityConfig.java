@@ -7,7 +7,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,9 +29,11 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/auth/customers/login", "/api/auth/customers/register").permitAll()
                         .requestMatchers("/api/auth/employees/login", "/api/auth/employees/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/categories", "api/categories/list", "/api/categories/find/by-name").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/products", "api/products/list", "/api/products/find/by-name").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/categories", "/api/categories/list", "/api/categories/{id}", "/api/categories/find/by-name").hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/products", "/api/products/list", "/api/products/{id}", "/api/products/find/by-name").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/categories/{id}").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/products/{id}").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/orders/{id}").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/customers", "/api/orders").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/customers/{id}", "/api/orders/{id}").hasAnyAuthority("USER", "ADMIN")
