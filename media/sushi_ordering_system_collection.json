@@ -1,0 +1,1586 @@
+{
+	"info": {
+		"_postman_id": "7d758039-60e6-48e9-a5ad-cc8f5812e228",
+		"name": "Sushi Ordering System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27651988"
+	},
+	"item": [
+		{
+			"name": "Register a new employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/auth/employees/register",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"employees",
+						"register"
+					]
+				},
+				"description": "Registers a new employee and returns an authentication token."
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"customerId\": \"string\",\n  \"deliveryAddressId\": 0,\n  \"items\": [\n    {\n      \"productId\": 0,\n      \"quantity\": 0\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/orders",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				},
+				"description": "Create a new order with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Find employee by email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/employees/find/by-email?email=string",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"employees",
+						"find",
+						"by-email"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "string"
+						}
+					]
+				},
+				"description": "Returns an employee by their email."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all customers (pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/customers?pageable=[object Object]",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"customers"
+					],
+					"query": [
+						{
+							"key": "pageable",
+							"value": "[object Object]"
+						}
+					]
+				},
+				"description": "Returns a paginated list of customers."
+			},
+			"response": []
+		},
+		{
+			"name": "Update an existing employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/employees",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"employees"
+					]
+				},
+				"description": "Update an existing employee with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Update an existing order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 0,\n  \"deliveryAddressId\": 0,\n  \"items\": [\n    {\n      \"id\": 0,\n      \"productId\": 0,\n      \"quantity\": 0\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/orders",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				},
+				"description": "Update an existing order with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a customer by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/customers/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"customers",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Delete an existing customer by ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an order by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/orders/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"orders",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Delete an order by its ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Find customers by name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/customers/find/by-name?name=string",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"customers",
+						"find",
+						"by-name"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "string"
+						}
+					]
+				},
+				"description": "Returns a list of customers matching the given name."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all categories (pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/categories?pageable=[object Object]",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"categories"
+					],
+					"query": [
+						{
+							"key": "pageable",
+							"value": "[object Object]"
+						}
+					]
+				},
+				"description": "Returns a paginated list of categories."
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/categories",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"categories"
+					]
+				},
+				"description": "Create a new category with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Register a new customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/auth/customers/register",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"customers",
+						"register"
+					]
+				},
+				"description": "Registers a new customer and returns an authentication token."
+			},
+			"response": []
+		},
+		{
+			"name": "Find customer by email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/customers/find/by-email?email=string",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"customers",
+						"find",
+						"by-email"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "string"
+						}
+					]
+				},
+				"description": "Returns a customer by its email."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all products (pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/products?pageable=[object Object]",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "pageable",
+							"value": "[object Object]"
+						}
+					]
+				},
+				"description": "Retrieve a paginated list of products."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all orders (pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/orders?pageable=[object Object]",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"orders"
+					],
+					"query": [
+						{
+							"key": "pageable",
+							"value": "[object Object]"
+						}
+					]
+				},
+				"description": "Returns a paginated list of orders."
+			},
+			"response": []
+		},
+		{
+			"name": "Update an existing product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 0,\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"portionQuantity\": 0,\n  \"portionUnit\": \"string\",\n  \"urlImage\": \"string\",\n  \"categoriesId\": [\n    0\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/products",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"products"
+					]
+				},
+				"description": "Update an existing product with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an employee by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/employees/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"employees",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Delete an employee by their ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all products (non-pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/products/list",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"products",
+						"list"
+					]
+				},
+				"description": "Retrieve a list of all products without pagination."
+			},
+			"response": []
+		},
+		{
+			"name": "Get employee by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/employees/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"employees",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Returns an employee by their ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Get products by name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/products/find/by-name?name=string",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"products",
+						"find",
+						"by-name"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "string"
+						}
+					]
+				},
+				"description": "Retrieve a list of products by name."
+			},
+			"response": []
+		},
+		{
+			"name": "Update an existing customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"string\",\n  \"phone\": {\n    \"number\": \"string\"\n  },\n  \"addresses\": [\n    {\n      \"number\": \"string\",\n      \"street\": \"string\",\n      \"neighborhood\": \"string\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/customers",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"customers"
+					]
+				},
+				"description": "Update an existing customer with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all employees (pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/employees?pageable=[object Object]",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"employees"
+					],
+					"query": [
+						{
+							"key": "pageable",
+							"value": "[object Object]"
+						}
+					]
+				},
+				"description": "Returns a paginated list of employees."
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/employees",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"employees"
+					]
+				},
+				"description": "Create a new employee with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Get order by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/orders/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"orders",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Returns an order by its ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a category by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/categories/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"categories",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Delete an existing category by ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Get category by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/categories/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"categories",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Returns a single category by its ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"portionQuantity\": 0,\n  \"portionUnit\": \"string\",\n  \"urlImage\": \"string\",\n  \"categoriesId\": [\n    0\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/products",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"products"
+					]
+				},
+				"description": "Create a new product with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Get product by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/products/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Retrieve a product by its ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all employees (non-pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/employees/list",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"employees",
+						"list"
+					]
+				},
+				"description": "Returns a list of all employees without pagination."
+			},
+			"response": []
+		},
+		{
+			"name": "Update an existing category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 0,\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/categories",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"categories"
+					]
+				},
+				"description": "Update an existing category with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all orders (non-pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/orders/list",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"orders",
+						"list"
+					]
+				},
+				"description": "Returns a list of all orders without pagination."
+			},
+			"response": []
+		},
+		{
+			"name": "Find categories by name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/categories/find/by-name?name=string",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"categories",
+						"find",
+						"by-name"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "string"
+						}
+					]
+				},
+				"description": "Returns a list of categories matching the given name."
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"string\",\n  \"password\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/auth/customers/login",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"customers",
+						"login"
+					]
+				},
+				"description": "Verifies customer credentials and returns an authentication token."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all categories (non-pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/categories/list",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"categories",
+						"list"
+					]
+				},
+				"description": "Returns a list of all categories without pagination."
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"string\",\n  \"password\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/auth/employees/login",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"employees",
+						"login"
+					]
+				},
+				"description": "Verifies employee credentials and returns an authentication token."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a product by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/products/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Delete a product by its ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"string\",\n  \"phone\": {\n    \"number\": \"string\"\n  },\n  \"addresses\": [\n    {\n      \"number\": \"string\",\n      \"street\": \"string\",\n      \"neighborhood\": \"string\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.base_url }}/api/customers",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"customers"
+					]
+				},
+				"description": "Create a new customer with the provided details."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all customers (non-pageable)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/customers/list",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"customers",
+						"list"
+					]
+				},
+				"description": "Returns a list of all customers without pagination."
+			},
+			"response": []
+		},
+		{
+			"name": "Get customer by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ _.base_url }}/api/customers/{{ _.id }}",
+					"host": [
+						"{{ _.base_url }}"
+					],
+					"path": [
+						"api",
+						"customers",
+						"{{ _.id }}"
+					]
+				},
+				"description": "Returns a customer by its ID."
+			},
+			"response": []
+		}
+	]
+}
