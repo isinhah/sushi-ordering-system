@@ -18,42 +18,34 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String generateCustomerToken(Customer customer){
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+    private Algorithm getAlgorithm() {
+        return Algorithm.HMAC256(secret);
+    }
 
-            String token = JWT.create()
+    private String createToken(String subject, String role) {
+        try {
+            return JWT.create()
                     .withIssuer("login-auth-api")
-                    .withSubject(customer.getEmail())
-                    .withClaim("role", "USER")
-                    .withExpiresAt(this.generateExpirationDate())
-                    .sign(algorithm);
-            return token;
-        } catch (JWTCreationException exception){
-            throw new RuntimeException("Error while authenticating");
+                    .withSubject(subject)
+                    .withClaim("role", role)
+                    .withExpiresAt(generateExpirationDate())
+                    .sign(getAlgorithm());
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Error while creating token", exception);
         }
     }
 
-    public String generateEmployeeToken(Employee employee){
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+    public String generateCustomerToken(Customer customer) {
+        return createToken(customer.getEmail(), "USER");
+    }
 
-            String token = JWT.create()
-                    .withIssuer("login-auth-api")
-                    .withSubject(employee.getEmail())
-                    .withClaim("role", "ADMIN")
-                    .withExpiresAt(this.generateExpirationDate())
-                    .sign(algorithm);
-            return token;
-        } catch (JWTCreationException exception){
-            throw new RuntimeException("Error while authenticating");
-        }
+    public String generateEmployeeToken(Employee employee) {
+        return createToken(employee.getEmail(), "ADMIN");
     }
 
     public boolean validateToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWT.require(algorithm)
+            JWT.require(getAlgorithm())
                     .withIssuer("login-auth-api")
                     .build()
                     .verify(token);
@@ -64,8 +56,7 @@ public class TokenService {
     }
 
     public String getEmailFromToken(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(secret);
-        return JWT.require(algorithm)
+        return JWT.require(getAlgorithm())
                 .withIssuer("login-auth-api")
                 .build()
                 .verify(token)
@@ -73,15 +64,23 @@ public class TokenService {
     }
 
     public String getRoleFromToken(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(secret);
-        return JWT.require(algorithm)
+        return JWT.require(getAlgorithm())
                 .withIssuer("login-auth-api")
                 .build()
                 .verify(token)
                 .getClaim("role").asString();
     }
 
-    private Instant generateExpirationDate() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    public Instant getExpirationDateFromToken(String token) {
+        return JWT.require(getAlgorithm())
+                .withIssuer("login-auth-api")
+                .build()
+                .verify(token)
+                .getExpiresAt()
+                .toInstant();
+    }
+
+    public Instant generateExpirationDate() {
+        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
 }

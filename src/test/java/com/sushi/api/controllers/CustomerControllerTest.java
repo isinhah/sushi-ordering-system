@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.sushi.api.common.CustomerConstants.*;
-import static com.sushi.api.common.CustomerControllerConstants.CUSTOMERS_WITH_ADDRESS;
+import static com.sushi.api.common.CustomerControllerConstants.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -162,14 +162,13 @@ public class CustomerControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN", "USER"})
-    @DisplayName("Should create a new customer and returns Created")
+    @DisplayName("Should create a new customer and return Created")
     public void createCustomer_WithValidData_ReturnsCustomerCreated() throws Exception {
-        String employeeJson = objectMapper.writeValueAsString(CUSTOMER);
+        String customerJson = objectMapper.writeValueAsString(CUSTOMER_REQUEST_DTO);
 
-        mockMvc
-                .perform(post("/api/customers")
+        mockMvc.perform(post("/api/customers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(employeeJson)
+                        .content(customerJson)
                         .with(csrf()))
                 .andExpect(status().isCreated());
     }
@@ -178,7 +177,7 @@ public class CustomerControllerTest {
     @WithMockUser(roles = {"ADMIN", "USER"})
     @DisplayName("Should replace an existing customer and returns No Content")
     public void replaceCustomer_WithValidData_ReturnsNoContent() throws Exception {
-        String employeeJson = objectMapper.writeValueAsString(CUSTOMER);
+        String employeeJson = objectMapper.writeValueAsString(CUSTOMER_UPDATE_DTO);
 
         mockMvc
                 .perform(put("/api/customers")

@@ -1,5 +1,6 @@
 package com.sushi.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class Employee {
     private String name;
     @Column(nullable = false, unique = true)
     private String email;
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 

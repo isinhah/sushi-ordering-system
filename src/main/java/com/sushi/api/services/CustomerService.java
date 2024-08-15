@@ -6,11 +6,7 @@ import com.sushi.api.model.Customer;
 import com.sushi.api.model.Phone;
 import com.sushi.api.model.dto.customer.CustomerRequestDTO;
 import com.sushi.api.model.dto.customer.CustomerUpdateDTO;
-import com.sushi.api.model.dto.login.LoginRequestDTO;
-import com.sushi.api.model.dto.login.LoginResponseDTO;
-import com.sushi.api.model.dto.login.RegisterRequestDTO;
 import com.sushi.api.repositories.CustomerRepository;
-import com.sushi.api.security.TokenService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,8 +26,6 @@ public class CustomerService {
     private CustomerRepository customerRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private TokenService tokenService;
 
     public Page<Customer> listAllPageable(Pageable pageable) {
         return customerRepository.findAll(pageable);
@@ -59,35 +52,6 @@ public class CustomerService {
         return customerRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Customer not found with this id."));
     }
 
-    public LoginResponseDTO loginCustomer(LoginRequestDTO dto) {
-        Customer customer = customerRepository.findByEmail(dto.email())
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found."));
-
-        if (passwordEncoder.matches(dto.password(), customer.getPassword())) {
-            String token = tokenService.generateCustomerToken(customer);
-            return new LoginResponseDTO(customer.getName(), token);
-        }
-
-        return new LoginResponseDTO("Invalid credentials", null);
-    }
-
-    @Transactional
-    public LoginResponseDTO registerCustomer(RegisterRequestDTO dto) {
-        Optional<Customer> existingCustomer = customerRepository.findByEmail(dto.email());
-        if (existingCustomer.isEmpty()) {
-            Customer newCustomer = new Customer();
-            newCustomer.setPassword(passwordEncoder.encode(dto.password()));
-            newCustomer.setEmail(dto.email());
-            newCustomer.setName(dto.name());
-
-            customerRepository.save(newCustomer);
-            String token = tokenService.generateCustomerToken(newCustomer);
-            return new LoginResponseDTO(newCustomer.getName(), token);
-        }
-
-        return new LoginResponseDTO("Customer already exists", null);
-    }
-
     @Transactional
     public Customer createCustomer(CustomerRequestDTO dto) {
         if (customerRepository.findByEmail(dto.email()).isPresent()) {
@@ -97,7 +61,7 @@ public class CustomerService {
         Customer customer = new Customer();
         customer.setName(dto.name());
         customer.setEmail(dto.email());
-        customer.setPassword(dto.password());
+        customer.setPassword(passwordEncoder.encode(dto.password()));
 
         Phone phone = new Phone();
         phone.setNumber(dto.phone().number());
@@ -125,7 +89,7 @@ public class CustomerService {
         Customer savedCustomer = findCustomerById(dto.id());
         savedCustomer.setName(dto.name());
         savedCustomer.setEmail(dto.email());
-        savedCustomer.setPassword(dto.password());
+        savedCustomer.setPassword(passwordEncoder.encode(dto.password()));
 
         Phone phone = savedCustomer.getPhone();
         if (phone == null) {

@@ -3,9 +3,7 @@ package com.sushi.api.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sushi.api.exceptions.ResourceNotFoundException;
 import com.sushi.api.model.Order;
-import com.sushi.api.model.Product;
 import com.sushi.api.security.TokenService;
-import com.sushi.api.services.CategoryService;
 import com.sushi.api.services.OrderService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,12 +18,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-
 import static com.sushi.api.common.OrderConstants.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

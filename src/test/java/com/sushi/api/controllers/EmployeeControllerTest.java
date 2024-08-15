@@ -20,12 +20,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
-import static com.sushi.api.common.EmployeeConstants.EMPLOYEE;
-import static com.sushi.api.common.EmployeeConstants.EMPLOYEES;
+import static com.sushi.api.common.EmployeeConstants.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -126,7 +124,7 @@ public class EmployeeControllerTest {
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Should create a new employee and returns Created")
     public void createEmployee_WithValidData_ReturnsEmployeeCreated() throws Exception {
-        String employeeJson = objectMapper.writeValueAsString(EMPLOYEE);
+        String employeeJson = objectMapper.writeValueAsString(EMPLOYEE_REQUEST_DTO);
 
         mockMvc
                 .perform(post("/api/employees")
@@ -140,7 +138,7 @@ public class EmployeeControllerTest {
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Should replace an existing employee and returns No Content")
     public void replaceEmployee_WithValidData_ReturnsNoContent() throws Exception {
-        String employeeJson = objectMapper.writeValueAsString(EMPLOYEE);
+        String employeeJson = objectMapper.writeValueAsString(EMPLOYEE_UPDATE_DTO);
 
         mockMvc
                 .perform(put("/api/employees")

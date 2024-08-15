@@ -3,12 +3,12 @@ package com.sushi.api.controllers;
 import com.sushi.api.model.dto.login.LoginRequestDTO;
 import com.sushi.api.model.dto.login.LoginResponseDTO;
 import com.sushi.api.model.dto.login.RegisterRequestDTO;
-import com.sushi.api.services.CustomerService;
-import com.sushi.api.services.EmployeeService;
+import com.sushi.api.model.dto.login.RegisterResponseDTO;
+import com.sushi.api.services.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,13 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/auth", produces = {"application/json"})
 public class AuthController {
 
-    private final CustomerService customerService;
-    private final EmployeeService employeeService;
-
-    public AuthController(CustomerService customerService, EmployeeService employeeService) {
-        this.customerService = customerService;
-        this.employeeService = employeeService;
-    }
+    @Autowired
+    private AuthService authService;
 
     @Operation(summary = "Authenticate customer",
             description = "Verifies customer credentials and returns an authentication token.")
@@ -37,7 +32,7 @@ public class AuthController {
     })
     @PostMapping("/customers/login")
     public ResponseEntity<LoginResponseDTO> loginCustomer(@RequestBody LoginRequestDTO dto) {
-        LoginResponseDTO response = customerService.loginCustomer(dto);
+        LoginResponseDTO response = authService.loginCustomer(dto);
         return ResponseEntity.ok(response);
     }
 
@@ -51,8 +46,8 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/customers/register")
-    public ResponseEntity<LoginResponseDTO> registerCustomer(@RequestBody RegisterRequestDTO dto) {
-        LoginResponseDTO response = customerService.registerCustomer(dto);
+    public ResponseEntity<RegisterResponseDTO> registerCustomer(@RequestBody RegisterRequestDTO dto) {
+        RegisterResponseDTO response = authService.registerCustomer(dto);
         return ResponseEntity.ok(response);
     }
 
@@ -66,7 +61,7 @@ public class AuthController {
     })
     @PostMapping("/employees/login")
     public ResponseEntity<LoginResponseDTO> loginEmployee(@RequestBody LoginRequestDTO dto) {
-        LoginResponseDTO response = employeeService.loginEmployee(dto);
+        LoginResponseDTO response = authService.loginEmployee(dto);
         return ResponseEntity.ok(response);
     }
 
@@ -80,8 +75,8 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/employees/register")
-    public ResponseEntity<LoginResponseDTO> registerEmployee(@RequestBody RegisterRequestDTO dto) {
-        LoginResponseDTO response = employeeService.registerEmployee(dto);
+    public ResponseEntity<RegisterResponseDTO> registerEmployee(@RequestBody RegisterRequestDTO dto) {
+        RegisterResponseDTO response = authService.registerEmployee(dto);
         return ResponseEntity.ok(response);
     }
 }

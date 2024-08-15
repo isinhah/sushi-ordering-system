@@ -4,11 +4,7 @@ import com.sushi.api.exceptions.ResourceNotFoundException;
 import com.sushi.api.model.Customer;
 import com.sushi.api.model.dto.customer.CustomerRequestDTO;
 import com.sushi.api.model.dto.customer.CustomerUpdateDTO;
-import com.sushi.api.model.dto.login.LoginRequestDTO;
-import com.sushi.api.model.dto.login.LoginResponseDTO;
-import com.sushi.api.model.dto.login.RegisterRequestDTO;
 import com.sushi.api.repositories.CustomerRepository;
-import com.sushi.api.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static com.sushi.api.common.CustomerConstants.*;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -39,8 +38,6 @@ class CustomerServiceTest {
     private CustomerRepository customerRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
-    @Mock
-    private TokenService tokenService;
 
     @BeforeEach
     void setUp() {
@@ -165,85 +162,11 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("Should return a LoginResponseDTO with a token when credentials are valid")
-    void loginCustomer_WithValidCredentials_ReturnsToken() {
-        LoginRequestDTO request = new LoginRequestDTO(EMAIL, PASSWORD);
-
-        when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(CUSTOMER_LOGIN));
-        when(passwordEncoder.matches(PASSWORD, CUSTOMER_LOGIN.getPassword())).thenReturn(true);
-        when(tokenService.generateCustomerToken(CUSTOMER_LOGIN)).thenReturn(TOKEN);
-
-        LoginResponseDTO response = customerService.loginCustomer(request);
-
-        assertNotNull(response);
-        assertEquals(CUSTOMER_LOGIN.getName(), response.name());
-        assertEquals(TOKEN, response.token());
-    }
-
-    @Test
-    @DisplayName("Should return a LoginResponseDTO with invalid credentials message when password is invalid")
-    void loginCustomer_WithInvalidPassword_ReturnsInvalidCredentials() {
-        LoginRequestDTO request = new LoginRequestDTO(EMAIL, "senhaerrada");
-
-        when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(CUSTOMER_LOGIN));
-        when(passwordEncoder.matches("senhaerrada", CUSTOMER_LOGIN.getPassword())).thenReturn(false);
-
-        LoginResponseDTO response = customerService.loginCustomer(request);
-
-        assertNotNull(response);
-        assertEquals("Invalid credentials", response.name());
-        assertNull(response.token());
-    }
-
-    @Test
-    @DisplayName("Should throw a ResourceNotFoundException when customer does not exist")
-    void loginCustomer_WithNonExistingCustomer_ThrowsResourceNotFoundException() {
-        LoginRequestDTO request = new LoginRequestDTO(EMAIL, PASSWORD);
-
-        when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () -> customerService.loginCustomer(request));
-    }
-
-    @Test
-    @DisplayName("Should register a new customer and return a LoginRequestDTO with a valid token")
-    void registerCustomer_SavesNewCustomer_ReturnsToken() {
-        RegisterRequestDTO request = new RegisterRequestDTO("ana", EMAIL, PASSWORD);
-
-        when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.empty());
-        when(passwordEncoder.encode(PASSWORD)).thenReturn(ENCODED_PASSWORD);
-        when(tokenService.generateCustomerToken(any(Customer.class))).thenReturn(TOKEN);
-
-        LoginResponseDTO response = customerService.registerCustomer(request);
-
-        assertNotNull(response);
-        assertEquals("ana", response.name());
-        assertEquals(TOKEN, response.token());
-
-        verify(customerRepository, times(1)).save(any(Customer.class));
-    }
-
-    @Test
-    @DisplayName("Should return a LoginResponseDTO with invalid credentials message when customer already exists")
-    void registerCustomer_WithExistingCustomer_ReturnsInvalidCredentials() {
-        RegisterRequestDTO request = new RegisterRequestDTO("ana", EMAIL, PASSWORD);
-
-        when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(new Customer()));
-
-        LoginResponseDTO response = customerService.registerCustomer(request);
-
-        assertNotNull(response);
-        assertEquals("Customer already exists", response.name());
-        assertNull(response.token());
-
-        verify(customerRepository, never()).save(any(Customer.class));
-    }
-
-    @Test
     @DisplayName("Should create a new customer when provided with valid CustomerRequestDTO")
     void createCustomer_WithValidData_CreatesCustomer() {
         CustomerRequestDTO request = new CustomerRequestDTO(CUSTOMER_ADDRESS.getName(), CUSTOMER_ADDRESS.getEmail(), CUSTOMER_ADDRESS.getPassword(), PHONE_DTO, Set.of(ADDRESS_DTO));
 
+        when(passwordEncoder.encode(request.password())).thenReturn("encodedPassword");
         when(customerRepository.save(any(Customer.class))).thenReturn(CUSTOMER_ADDRESS);
 
         Customer result = customerService.createCustomer(request);
@@ -273,12 +196,13 @@ class CustomerServiceTest {
     @DisplayName("Should replace an existing customer when provided with valid CustomerUpdateDTO")
     void replaceCustomer_WhenSuccessful() {
         when(customerRepository.findById(CUSTOMER.getId())).thenReturn(Optional.of(CUSTOMER));
+        when(passwordEncoder.encode(CUSTOMER.getPassword())).thenReturn("encodedPassword");
 
         CustomerUpdateDTO updateDTO = new CustomerUpdateDTO(
                 CUSTOMER.getId(),
                 "newName",
                 "newEmail",
-                "newPassword",
+                CUSTOMER.getPassword(),
                 PHONE_DTO,
                 Set.of(ADDRESS_DTO)
         );

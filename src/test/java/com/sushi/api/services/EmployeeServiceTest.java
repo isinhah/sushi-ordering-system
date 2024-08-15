@@ -4,11 +4,7 @@ import com.sushi.api.exceptions.ResourceNotFoundException;
 import com.sushi.api.model.Employee;
 import com.sushi.api.model.dto.employee.EmployeeRequestDTO;
 import com.sushi.api.model.dto.employee.EmployeeUpdateDTO;
-import com.sushi.api.model.dto.login.LoginRequestDTO;
-import com.sushi.api.model.dto.login.LoginResponseDTO;
-import com.sushi.api.model.dto.login.RegisterRequestDTO;
 import com.sushi.api.repositories.EmployeeRepository;
-import com.sushi.api.security.TokenService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.sushi.api.common.CustomerConstants.*;
 import static com.sushi.api.common.EmployeeConstants.*;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,8 +35,6 @@ public class EmployeeServiceTest {
     private EmployeeRepository employeeRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
-    @Mock
-    private TokenService tokenService;
 
     @Test
     @DisplayName("Should return a list of employees inside page object when successful")
@@ -137,85 +130,11 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    @DisplayName("Should return a LoginResponseDTO with a token when credentials are valid")
-    void loginEmployee_WithValidCredentials_ReturnsToken() {
-        LoginRequestDTO request = new LoginRequestDTO(EMAIL, PASSWORD);
-
-        when(employeeRepository.findByEmail(EMAIL)).thenReturn(Optional.of(EMPLOYEE_LOGIN));
-        when(passwordEncoder.matches(PASSWORD, EMPLOYEE_LOGIN.getPassword())).thenReturn(true);
-        when(tokenService.generateEmployeeToken(EMPLOYEE_LOGIN)).thenReturn(TOKEN);
-
-        LoginResponseDTO response = employeeService.loginEmployee(request);
-
-        assertNotNull(response);
-        assertEquals(EMPLOYEE_LOGIN.getName(), response.name());
-        assertEquals(TOKEN, response.token());
-    }
-
-    @Test
-    @DisplayName("Should return a LoginResponseDTO with invalid credentials message when password is invalid")
-    void loginEmployee_WithInvalidPassword_ReturnsInvalidCredentials() {
-        LoginRequestDTO request = new LoginRequestDTO(EMAIL, "senhaerrada");
-
-        when(employeeRepository.findByEmail(EMAIL)).thenReturn(Optional.of(EMPLOYEE_LOGIN));
-        when(passwordEncoder.matches("senhaerrada", EMPLOYEE_LOGIN.getPassword())).thenReturn(false);
-
-        LoginResponseDTO response = employeeService.loginEmployee(request);
-
-        assertNotNull(response);
-        assertEquals("Invalid credentials", response.name());
-        assertNull(response.token());
-    }
-
-    @Test
-    @DisplayName("Should throw a ResourceNotFoundException when employee does not exist")
-    void loginEmployee_WithNonExistingEmployee_ThrowsResourceNotFoundException() {
-        LoginRequestDTO request = new LoginRequestDTO(EMAIL, PASSWORD);
-
-        when(employeeRepository.findByEmail(EMAIL)).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () -> employeeService.loginEmployee(request));
-    }
-
-    @Test
-    @DisplayName("Should register a new employee and return a LoginRequestDTO with a valid token")
-    void registerEmployee_SavesNewEmployee_ReturnsToken() {
-        RegisterRequestDTO request = new RegisterRequestDTO("ana", EMAIL, PASSWORD);
-
-        when(employeeRepository.findByEmail(EMAIL)).thenReturn(Optional.empty());
-        when(passwordEncoder.encode(PASSWORD)).thenReturn(ENCODED_PASSWORD);
-        when(tokenService.generateEmployeeToken(any(Employee.class))).thenReturn(TOKEN);
-
-        LoginResponseDTO response = employeeService.registerEmployee(request);
-
-        assertNotNull(response);
-        assertEquals("ana", response.name());
-        assertEquals(TOKEN, response.token());
-
-        verify(employeeRepository, times(1)).save(any(Employee.class));
-    }
-
-    @Test
-    @DisplayName("Should return a LoginResponseDTO with invalid credentials message when employee already exists")
-    void registerCostumer_WithExistingEmployee_ReturnsInvalidCredentials() {
-        RegisterRequestDTO request = new RegisterRequestDTO("ana", EMAIL, PASSWORD);
-
-        when(employeeRepository.findByEmail(EMAIL)).thenReturn(Optional.of(new Employee()));
-
-        LoginResponseDTO response = employeeService.registerEmployee(request);
-
-        assertNotNull(response);
-        assertEquals("Employee already exists", response.name());
-        assertNull(response.token());
-
-        verify(employeeRepository, never()).save(any(Employee.class));
-    }
-
-    @Test
     @DisplayName("Should create a new employee when provided with valid EmployeeRequestDTO")
     void createEmployee_WithValidData_CreatesEmployee() {
         EmployeeRequestDTO request = new EmployeeRequestDTO(EMPLOYEE.getName(), EMPLOYEE.getEmail(), EMPLOYEE.getPassword());
 
+        when(passwordEncoder.encode(request.password())).thenReturn("encodedPassword");
         when(employeeRepository.save(any(Employee.class))).thenReturn(EMPLOYEE);
 
         Employee result = employeeService.createEmployee(request);
@@ -223,7 +142,6 @@ public class EmployeeServiceTest {
         assertNotNull(result);
         assertEquals(EMPLOYEE.getName(), result.getName());
         assertEquals(EMPLOYEE.getEmail(), result.getEmail());
-        assertEquals(EMPLOYEE.getPassword(), result.getPassword());
 
         verify(employeeRepository, times(1)).save(any(Employee.class));
     }
@@ -242,12 +160,13 @@ public class EmployeeServiceTest {
     @DisplayName("Should replace an existing employee when provided with valid EmployeeUpdateDTO")
     void replaceEmployee_WhenSuccessful() {
         when(employeeRepository.findById(EMPLOYEE.getId())).thenReturn(Optional.of(EMPLOYEE));
+        when(passwordEncoder.encode(EMPLOYEE.getPassword())).thenReturn("encodedPassword");
 
         EmployeeUpdateDTO updateDTO = new EmployeeUpdateDTO(
                 EMPLOYEE.getId(),
                 "newName",
                 "newEmail",
-                "newPassword"
+                EMPLOYEE.getPassword()
         );
 
         employeeService.replaceEmployee(updateDTO);
