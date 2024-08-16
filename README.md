@@ -41,8 +41,10 @@ Foram implementadas no projeto as funcionalidades de autenticação e autorizaç
 ## ☁️ Deploy
 A API está hospedada no [Render](https://render.com/) e pode demorar um pouco para carregar.
 
-- **Documentação da API**: https://sushi-ordering-system.onrender.com/swagger-ui/index.html
-- **Coleção com as Requisições HTTP (Postman ou Insomnia)**: [collection](media/sushi_ordering_system_collection.json)
+- **Acessar a Documentação da API no Render**: https://sushi-ordering-system.onrender.com/swagger-ui/index.html
+- **Acessar a Documentação da API localmente**: http://localhost:8080/swagger-ui/index.html#/
+- **Coleção JSON com as Requisições HTTP (Postman ou Insomnia)**: [Collection](media/sushi_ordering_system_collection.json)
+
 
 ## 🔎 Diagramas
 <details>
@@ -54,7 +56,7 @@ A API está hospedada no [Render](https://render.com/) e pode demorar um pouco p
     <img src="./media/db-diagram.png" alt="Diagrama de Entidade e Relacionamento">
 </details>
 
-## ⚒️ Configuração
+## ⚒️ Configuração e Execução
 Pré-requisito: Java 17
 1. Clone o repositório
 2. Instale as dependências do **pom.xml** com Maven
