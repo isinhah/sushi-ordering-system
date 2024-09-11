@@ -29,12 +29,11 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/auth/customers/login", "/api/auth/customers/register").permitAll()
                         .requestMatchers("/api/auth/employees/login", "/api/auth/employees/register").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/api/categories", "api/categories/list", "/api/categories/find/by-name").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products", "api/products/list", "/api/products/find/by-name").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/categories/{id}").hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/products/{id}").hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/orders/{id}").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/categories/{id}", "/api/products/{id}", "/api/orders/{id}").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/customers", "/api/orders").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/customers/{id}", "/api/orders/{id}").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/orders/{id}").hasAnyAuthority("USER", "ADMIN")

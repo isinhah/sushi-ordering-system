@@ -8,6 +8,7 @@ import com.sushi.api.services.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/customers/login")
-    public ResponseEntity<LoginResponseDTO> loginCustomer(@RequestBody LoginRequestDTO dto) {
+    public ResponseEntity<LoginResponseDTO> loginCustomer(@RequestBody @Valid LoginRequestDTO dto) {
         LoginResponseDTO response = authService.loginCustomer(dto);
         return ResponseEntity.ok(response);
     }
@@ -46,7 +47,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/customers/register")
-    public ResponseEntity<RegisterResponseDTO> registerCustomer(@RequestBody RegisterRequestDTO dto) {
+    public ResponseEntity<RegisterResponseDTO> registerCustomer(@RequestBody @Valid RegisterRequestDTO dto) {
         RegisterResponseDTO response = authService.registerCustomer(dto);
         return ResponseEntity.ok(response);
     }
@@ -60,7 +61,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/employees/login")
-    public ResponseEntity<LoginResponseDTO> loginEmployee(@RequestBody LoginRequestDTO dto) {
+    public ResponseEntity<LoginResponseDTO> loginEmployee(@RequestBody @Valid LoginRequestDTO dto) {
         LoginResponseDTO response = authService.loginEmployee(dto);
         return ResponseEntity.ok(response);
     }
@@ -75,7 +76,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/employees/register")
-    public ResponseEntity<RegisterResponseDTO> registerEmployee(@RequestBody RegisterRequestDTO dto) {
+    public ResponseEntity<RegisterResponseDTO> registerEmployee(@RequestBody @Valid RegisterRequestDTO dto) {
         RegisterResponseDTO response = authService.registerEmployee(dto);
         return ResponseEntity.ok(response);
     }

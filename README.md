@@ -4,7 +4,7 @@
 
 ## 🍣 Projeto
 
-A API de Sistemas de Pedidos de Sushi foi desenvolvida para os clientes realizarem pedidos de sushi online. Com esta API, os clientes visualizam o cardápio (categorias), os produtos dentro de cada categoria e realizam os pedidos. Para os funcionários, a API oferece ferramentas para gerenciar o cardápio e produtos, processar pedidos e administrar clientes.
+A API de Sistema de Pedidos de Sushi foi desenvolvida para os clientes realizarem pedidos de sushi online. Com esta API, os clientes visualizam o cardápio (categorias), os produtos dentro de cada categoria e realizam os pedidos. Para os funcionários, a API oferece ferramentas para gerenciar o cardápio e produtos, processar pedidos e administrar clientes.
 
 Foram implementadas no projeto as funcionalidades de autenticação e autorização, assegurando que apenas clientes autenticados possam fazer pedidos e que apenas os administradores tenham acesso a todas as funcionalidades.
 
